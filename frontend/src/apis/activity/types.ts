@@ -117,5 +117,5 @@ export interface CommentActivityResponse {
   flag: boolean
   code: number
   message: string
-  data: null
+  data: Activity
 }
