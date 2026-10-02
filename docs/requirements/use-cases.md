@@ -2396,7 +2396,7 @@ Details of a peer evaluation: The instructor may choose to see more details of o
 - PRE-2. The instructor is assigned to the course section of the students she reminds (BR-section-scoped-access).
 
 **Postconditions:**
-- POST-1. A reminder is sent to each student for every artifact they have not submitted.
+- POST-1. Each selected non-submitter who passes the re-check is sent a reminder for each artifact she has not submitted.
 - POST-2. The system records the student, the artifacts missing, the date and time for each reminder.
 - POST-3. The instructor is told how many reminders were sent and which students could not be emailed or were skipped.
 
@@ -2430,7 +2430,7 @@ Details of a peer evaluation: The instructor may choose to see more details of o
   - 4a1. No reminders are sent.
   - 4a2. Use case ends.
 - **7a. A selected student has already been nudged for the same artifact and week today**
-  - 7a1. The system does not nudge her again (BR-nudge-limit) and reports her as skipped, with the time of her last nudge.
+  - 7a1. The system does not nudge her again for that artifact (BR-nudge-limit) and reports it as skipped, with the time of her last nudge; she is still nudged for any other missing artifact.
 - **7b. A selected student submitted between step 3 and step 7:**
   - 7b1. The re-check finds she is no longer a non-submitter for that artifact (BR-non-submitter); the system does not nudge her for it and reports her as skipped.
 - **7c. A student submitted, then deleted what she submitted:**
