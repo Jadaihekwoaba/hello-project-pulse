@@ -2378,6 +2378,79 @@ Details of a peer evaluation: The instructor may choose to see more details of o
 **Assumptions:**
 **Open Issues:**
 
+
+## **Notification**
+
+### **UC-NOT-nudge-non-submitters: The instructor reminds students who have not submitted**
+
+**UC ID and Name:** UC-NOT-nudge-non-submitters: Notify students who haven't submitted
+**Created By:** Jada Ihekwoaba
+**Date Created:** 2026-10-02
+**Primary Actor:** Instructor
+**Secondary Actors:** Students, email service
+**Trigger:** The instructor indicates to remind students in their course section who have not submitted.
+**Description:** The instructor wants to see which students have not submitted a weekly activity report or peer evaluation that is currently due, and send them a reminder.
+
+**Preconditions:**
+- PRE-1. The instructor is logged into the system.
+- PRE-2. The instructor is assigned to the course section of the students she reminds (BR-section-scoped-access).
+
+**Postconditions:**
+- POST-1. A reminder is sent to each student for every artifact they have not submitted.
+- POST-2. The system records the student, the artifacts missing, the date and time for each reminder.
+- POST-3. The instructor is told how many reminders were sent and which students could not be emailed or were skipped.
+
+**Main Success Scenario:**
+1. The instructor indicates to remind students who have not submitted artifacts.
+2. The system determines the non-submitters for the current week's WAR and the previous week's peer evaluation, judging each artifact separately (BR-non-submitter).
+3. The system displays the non-submitters, showing for each student the artifact(s) they are missing.
+4. The instructor selects the students to nudge (all are selected by default) and confirms.
+5. The system displays the nudge message and asks the instructor to confirm sending.
+6. The instructor confirms.
+7. The system re-checks each selected student (BR-non-submitter, BR-nudge-limit) and sends each remaining student an individual nudge email listing only her missing artifact(s).
+8. The system records each nudge sent and displays the results (POST-3).
+9. Use case ends.
+
+**Extensions:**
+- **2a. The current week is not an active week**
+  - 2a1. The system lists no weekly activity report non-submitters (BR-active-weeks, BR-non-submitter).
+- **2b. The previous week is not an active week (e.g., the current week is the first active week)**
+  - 2b1. The system lists no peer evaluation non-submitters, since no peer evaluation is due (BR-active-weeks, BR-non-submitter).
+- **2c. The previous week's peer evaluation submission window has closed**
+  - 2c1. The system lists no peer evaluation non-submitters and informs the instructor that the window has closed (BR-evaluation-submission-window, BR-non-submitter). Weekly activity report non-submitters are still listed.
+- **2d. A student is not assigned to a team**
+  - 2d1. The system does not list her as a non-submitter (BR-team-assignment-required, BR-non-submitter).
+  - 2d2. The system displays her separately as "not on a team" so the instructor can follow up with the course admin; she cannot be nudged.
+- **2e. A student has been deactivated**
+  - 2e1. The system does not list her (BR-student-lifecycle, BR-non-submitter).
+- **2f. There are no non-submitters**
+  - 2f1. The system informs the instructor that there is no one to remind.
+  - 2f2. Use case ends.
+- **4a. The instructor cancels**
+  - 4a1. No reminders are sent.
+  - 4a2. Use case ends.
+- **7a. A selected student has already been nudged for the same artifact and week today**
+  - 7a1. The system does not nudge her again (BR-nudge-limit) and reports her as skipped, with the time of her last nudge.
+- **7b. A selected student submitted between step 3 and step 7:**
+  - 7b1. The re-check finds she is no longer a non-submitter for that artifact (BR-non-submitter); the system does not nudge her for it and reports her as skipped.
+- **7c. A student submitted, then deleted what she submitted:**
+  - 7c1. She is a non-submitter again (BR-non-submitter) and is nudged normally.
+- **7d. The mail server rejects a student's address:**
+  - 7d1. The system logs the failure, continues sending to the remaining students, and does not record a nudge for that student (BR-nudge-limit).
+  - 7d2. The system lists the rejected addresses in step 8 so the instructor can try again later.
+
+**Priority:** Medium
+**Frequency of Use:** Once or twice a week.
+**Business Rules:** BR-non-submitter, BR-nudge-limit, BR-section-scoped-access, BR-team-scoped-access, BR-role-based-access, BR-team-assignment-required, BR-active-weeks, BR-evaluation-submission-window, BR-student-lifecycle
+**Associated Information:**
+
+Access: Only an instructor assigned to the students' course section, or its course admin, may view the non-submitter list or send reminders (BR-section-scoped-access, BR-role-based-access). A student never sees the list, including for her own team (BR-team-scoped-access), because submission status is a student educational record (CO-ferpa).
+
+Reminder email: Each reminder is sent to one student and names only that student and her own missing artifact(s); it never reveals another student's name or submission status (CO-ferpa).
+
+**Assumptions:**
+**Open Issues:**
+
 ## **Templates and Provisioning**
 
 ### **UC-TPL-provision-documents: The course admin creates team documents from built-in templates**
